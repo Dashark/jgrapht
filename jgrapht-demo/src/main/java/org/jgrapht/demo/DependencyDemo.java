@@ -47,23 +47,39 @@ public class DependencyDemo
         g = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
 
         // Add vertices
-        g.addVertex("a");
-        g.addVertex("b");
-        g.addVertex("c");
-        g.addVertex("d");
-        g.addVertex("e");
+        g.addVertex("Dev_GetInfo");
+        g.addVertex("Dev_Reset");
+        g.addVertex("Dev_ModPower");
+        g.addVertex("Mod_GetIdVer");
+        g.addVertex("Mod_NextCtrlOn");
+        g.addVertex("Dev_LEDCtrl");
+        g.addVertex("Mod_DetonCtrl15s");
+        g.addVertex("Dev_KA1Ctrl");
+        g.addVertex("Dev_KA23Ctrl");
+        g.addVertex("Dev_KA4Ctrl");
 
         // Add edges
 
-        g.addEdge("b", "a");
-        g.addEdge("c", "b");
-        if (createCycles) {
-            g.addEdge("a", "c");
-        }
-        g.addEdge("e", "d");
-        if (createCycles) {
-            g.addEdge("d", "e");
-        }
+        g.addEdge("Dev_GetInfo", "Dev_Reset");
+        g.addEdge("Dev_Reset", "Dev_Reset");
+        g.addEdge("Dev_Reset", "Dev_ModPower");
+        g.addEdge("Mod_GetIdVer", "Dev_Reset");
+        g.addEdge("Dev_LEDCtrl", "Dev_Reset");
+        g.addEdge("Dev_ModPower", "Mod_GetIdVer");
+        g.addEdge("Dev_ModPower", "Dev_KA4Ctrl");
+        g.addEdge("Dev_LEDCtrl", "Dev_ModPower");
+        g.addEdge("Mod_GetIdVer", "Mod_GetIdVer");
+        g.addEdge("Mod_GetIdVer", "Mod_NextCtrlOn");
+        g.addEdge("Mod_GetIdVer", "Dev_LEDCtrl");
+        g.addEdge("Mod_NextCtrlOn", "Mod_GetIdVer");
+        g.addEdge("Dev_LEDCtrl", "Mod_DetonCtrl15s");
+        g.addEdge("Dev_KA1Ctrl", "Dev_LEDCtrl");
+        g.addEdge("Dev_KA4Ctrl", "Dev_LEDCtrl");
+        g.addEdge("Mod_DetonCtrl15s", "Dev_KA1Ctrl");
+        g.addEdge("Dev_KA1Ctrl", "Dev_KA23Ctrl");
+        g.addEdge("Dev_KA23Ctrl", "Dev_KA1Ctrl");
+        g.addEdge("Dev_KA23Ctrl", "Dev_KA4Ctrl");
+        g.addEdge("Dev_KA4Ctrl", "Dev_KA23Ctrl");
 
         // Printing the vetrices and the edges
         System.out.println(g.toString());
@@ -124,9 +140,6 @@ public class DependencyDemo
     {
         System.out.println("\nCase 1: There are cycles.");
         test(true);
-
-        System.out.println("\nCase 2: There are no cycles.");
-        test(false);
 
         System.out.println("\nAll done");
         System.exit(0);
